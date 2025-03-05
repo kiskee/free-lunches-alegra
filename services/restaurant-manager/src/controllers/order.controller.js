@@ -1,4 +1,5 @@
 const RestaurantService = require("../services/restaurant.service"); // Import the restaurant service
+const axios = require("axios");
 
 /**
  * Handles incoming order requests.
@@ -12,13 +13,14 @@ const placeOrder = async (req, res) => {
     console.log("Selected recipe:", selectedRecipe);
 
     // Simulate sending the order to the kitchen service (uncomment to enable)
-    // const kitchenResponse = await axios.post('http://kitchen-service:3002/prepare', { recipe: selectedRecipe });
-
+    const kitchenResponse = await axios.post("http://localhost:3002/prepare", {
+      recipe: selectedRecipe,
+    });
     // Send a response confirming the order placement
     res.json({
       message: "Order placed successfully",
       recipe: selectedRecipe,
-      status: "active", // Placeholder status, replace with kitchenResponse.data.status when enabled
+      status: kitchenResponse.data.status,
     });
   } catch (error) {
     // Handle errors and send a 500 status response
