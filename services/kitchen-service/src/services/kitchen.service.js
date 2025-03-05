@@ -12,11 +12,11 @@ class KitchenService {
     async prepareRecipe(recipe) {
         try {
             // Request ingredients from the warehouse
-            await this.requestIngredientsFromWarehouse(recipe.ingredients);
+            await this.requestIngredientsFromWarehouse(recipe.recipe.ingredients);
 
             return {
                 status: 'PREPARED',
-                recipe: recipe.name
+                recipe: recipe.recipe.name
             };
         } catch (error) {
             throw new Error(error.message);

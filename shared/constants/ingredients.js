@@ -1,6 +1,6 @@
 const INGREDIENTS = [
     'tomato', 'lemon', 'potato', 'rice', 
-    'ketchup', 'lettuce', 'water', 'cheese', 
+    'ketchup', 'lettuce', 'cheese', 'onion',
     'meat', 'chicken'
 ];
 
@@ -20,7 +20,7 @@ const RECIPES = [
             potato: 2,
             cheese: 1,
             ketchup: 1,
-            water: 1
+            onion: 1
         }
     },
     {
@@ -38,7 +38,7 @@ const RECIPES = [
             tomato: 1,
             potato: 1,
             lettuce: 1,
-            water: 1
+            onion: 1
         }
     },
     {
@@ -55,7 +55,7 @@ const RECIPES = [
         ingredients: {
             rice: 1,
             meat: 1,
-            water: 1,
+            onion: 1,
             cheese: 1
         }
     }
