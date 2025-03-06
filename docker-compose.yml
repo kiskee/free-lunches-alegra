@@ -1,5 +1,40 @@
 version: '3.8'
 services:
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - restaurant-network
+
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    networks:
+      - restaurant-network
+
+  frontend:
+    build: ./services/frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - restaurant-manager
+    networks:
+      - restaurant-network
+    volumes:
+      - ./services/frontend:/app
+      - /app/node_modules
+
   restaurant-manager:
     build: ./services/restaurant-manager
     ports:
