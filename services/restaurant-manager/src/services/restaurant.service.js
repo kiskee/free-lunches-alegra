@@ -1,4 +1,4 @@
-const { RECIPES } = require("../../../../shared/constants/ingredients"); // Import the list of recipes
+const {  RECIPES } = require('/app/shared/constants/ingredients'); // Import the list of recipes
 
 /**
  * Service responsible for restaurant-related operations.

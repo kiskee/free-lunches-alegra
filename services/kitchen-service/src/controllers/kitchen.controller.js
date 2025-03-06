@@ -6,6 +6,7 @@ const kitchenService = new KitchenService();
  * Controller to handle recipe preparation requests.
  */
 const prepareRecipe = async (req, res) => {
+  //console.log("aca me llego a la cocina algo", req)
   try {
     const recipe = req.body;
     const response = await kitchenService.prepareRecipe(recipe);

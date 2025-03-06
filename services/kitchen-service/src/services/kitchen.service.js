@@ -29,7 +29,7 @@ class KitchenService {
      * @returns {Promise<Object>} - Warehouse response.
      */
     async requestIngredientsFromWarehouse(ingredients) {
-        const warehouseResponse = await axios.post('http://localhost:3003/supply', { ingredients });
+        const warehouseResponse = await axios.post('http://warehouse-service:3003/supply', { ingredients });
         return warehouseResponse.data;
     }
 }

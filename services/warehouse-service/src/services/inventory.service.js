@@ -1,4 +1,4 @@
-const { INGREDIENTS } = require('../../../../shared/constants/ingredients');
+const { INGREDIENTS } = require('/app/shared/constants/ingredients');
 const { MarketService } = require('./market.service');
 
 class InventoryService {

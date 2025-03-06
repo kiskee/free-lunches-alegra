@@ -10,10 +10,8 @@ const placeOrder = async (req, res) => {
     const service = new RestaurantService(); // Instantiate the restaurant service
     const selectedRecipe = service.selectRandomRecipe(); // Select a random recipe
 
-    //console.log("Selected recipe:", selectedRecipe);
-
     // Simulate sending the order to the kitchen service (uncomment to enable)
-    const kitchenResponse = await axios.post("http://localhost:3002/prepare", {
+    const kitchenResponse = await axios.post("http://kitchen-service:3002/prepare", {
       recipe: selectedRecipe,
     });
     // Send a response confirming the order placement

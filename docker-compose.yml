@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  restaurant-manager:
+    build: ./services/restaurant-manager
+    ports:
+      - "3004:3004"
+    depends_on:
+      - kitchen-service
+    networks:
+      - restaurant-network
+    volumes:
+      - ./shared:/app/shared
+
+  kitchen-service:
+    build: ./services/kitchen-service
+    ports:
+      - "3002:3002"
+    depends_on:
+      - warehouse-service
+    networks:
+      - restaurant-network
+    volumes:
+      - ./shared:/app/shared
+
+  warehouse-service:
+    build: ./services/warehouse-service
+    ports:
+      - "3003:3003"
+    networks:
+      - restaurant-network
+    volumes:
+      - ./shared:/app/shared
+
+networks:
+  restaurant-network:
+    driver: bridge
