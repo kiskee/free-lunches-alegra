@@ -1,10 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Layaut from "./components/Layaut";
 
 function App() {
   const [orderStatus, setOrderStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8082');
+
+    socket.onmessage = (event) => {
+      //const mensaje = JSON.parse(event.data);
+     // setEventos((prev) => [...prev, mensaje]); // Agregar al estado
+     console.log("por aca me llego el eventicocococococococococ", event)
+    };
+
+    return () => socket.close();
+  }, []);
 
   // Enviar la orden al servicio restaurant-manager
   const handleSubmitOrder = async () => {
@@ -25,7 +38,9 @@ function App() {
   };
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4 p-6">
-      <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Free Lunches by Alegra</h2>
+      <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+        Free Lunches by Alegra
+      </h2>
 
       {loading && (
         <div className="flex justify-center items-center py-4">
@@ -41,7 +56,7 @@ function App() {
 
       <div className="flex justify-center mb-6">
         <p className="text-gray-600 text-center">
-        Press the button to order a random dish from the menu
+          Press the button to order a random dish from the menu
         </p>
       </div>
 
@@ -75,7 +90,9 @@ function App() {
             {orderStatus.recipe && (
               <>
                 <div className="flex">
-                  <span className="font-medium text-gray-500 w-32">Recipe:</span>
+                  <span className="font-medium text-gray-500 w-32">
+                    Recipe:
+                  </span>
                   <span className="text-gray-900 font-semibold">
                     {orderStatus.recipe.name}
                   </span>

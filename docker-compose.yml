@@ -19,7 +19,9 @@ services:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
     networks:
       - restaurant-network
 
@@ -39,10 +41,13 @@ services:
     build: ./services/restaurant-manager
     ports:
       - "3004:3004"
+      - "8082:8082"  # WebSocket
     depends_on:
-      - kitchen-service
+      - kafka
     networks:
       - restaurant-network
+    environment:
+      - KAFKA_BROKER=kafka:9092
     volumes:
       - ./shared:/app/shared
 
@@ -51,9 +56,11 @@ services:
     ports:
       - "3002:3002"
     depends_on:
-      - warehouse-service
+      - kafka
     networks:
       - restaurant-network
+    environment:
+      - KAFKA_BROKER=kafka:9092
     volumes:
       - ./shared:/app/shared
 
@@ -61,8 +68,12 @@ services:
     build: ./services/warehouse-service
     ports:
       - "3003:3003"
+    depends_on:
+      - kafka
     networks:
       - restaurant-network
+    environment:
+      - KAFKA_BROKER=kafka:9092
     volumes:
       - ./shared:/app/shared
 

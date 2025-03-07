@@ -1,5 +1,6 @@
 const RestaurantService = require("../services/restaurant.service"); // Import the restaurant service
 const axios = require("axios");
+const { connectProducer, sendMessage } = require('../kafka');
 
 /**
  * Handles incoming order requests.
@@ -7,6 +8,8 @@ const axios = require("axios");
  */
 const placeOrder = async (req, res) => {
   try {
+    await connectProducer();
+    sendMessage("kitchen", { orderId: 123, status: "pending" });
     const service = new RestaurantService(); // Instantiate the restaurant service
     const selectedRecipe = service.selectRandomRecipe(); // Select a random recipe
 

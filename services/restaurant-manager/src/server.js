@@ -1,4 +1,5 @@
 const app = require("./app"); // Import the configured Express application
+const { connectConsumer } = require('./kafka');
 
 // Define the port number, using environment variable or default to 3001
 const PORT = 3004; //process.env.PORT ||
@@ -6,6 +7,10 @@ const PORT = 3004; //process.env.PORT ||
 const server = app.listen(PORT, "0.0.0.0", 511, () => {
   console.log(`Restaurant running on port ${PORT}`);
 });
+
+(async () => {
+  await connectConsumer();
+})();
 
 server.keepAliveTimeout = 5000; // 5s
 server.headersTimeout = 6000; // 6s

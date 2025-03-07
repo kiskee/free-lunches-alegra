@@ -1,4 +1,5 @@
-const {  RECIPES } = require('/app/shared/constants/ingredients'); // Import the list of recipes
+const { RECIPES } = require("/app/shared/constants/ingredients"); // Import the list of recipes
+const { enviarOrdenFinalizada } = require("./ws.service");
 
 /**
  * Service responsible for restaurant-related operations.
@@ -9,7 +10,16 @@ class RestaurantService {
    * @returns {Object} A randomly selected recipe.
    */
   selectRandomRecipe() {
+    enviarOrdenFinalizada("aca mi priomer envento ahcia alla")
     return RECIPES[Math.floor(Math.random() * RECIPES.length)];
+  }
+
+  async finalizedOder(topic, message) {
+    enviarOrdenFinalizada(message);
+    return console.log(
+      `📥 Mensaje recibido en ${topic}:`,
+      message.value.toString()
+    );
   }
 }
 
