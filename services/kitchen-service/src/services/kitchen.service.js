@@ -46,6 +46,23 @@ class KitchenService {
       console.log(error);
     }
   }
+
+  async sendCompleteOder(message){
+    try {
+      let convertedMsg = JSON.parse(message.value.toString());
+
+      if (typeof convertedMsg === "string") {
+        convertedMsg = JSON.parse(convertedMsg);
+      }
+      convertedMsg.status = "PREPARED"
+      await connectProducer();
+      sendMessage("final-order", convertedMsg);
+    } catch (error) {
+      
+    }
+    
+  }
+
 }
 
 module.exports = KitchenService;

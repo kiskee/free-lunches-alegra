@@ -2,9 +2,9 @@ const { Kafka } = require("kafkajs");
 const KitchenService = require("../services/kitchen.service");
 
 const kafka = new Kafka({
-    clientId: "kitchen-service",
-    brokers: ["kafka:9092"],
-  });
+  clientId: "kitchen-service",
+  brokers: ["kafka:9092"],
+});
 
 // consumer
 const consumer = kafka.consumer({ groupId: "kitchen-group" });
@@ -25,15 +25,15 @@ const connectConsumer = async () => {
           await service.incomeOrderFromRest(message);
           break;
         case "avalibleIngredients":
-          console.log("este mensaje me lelgo devuelta a la cocian ********************", message.value.toString())
-          break
+          await service.sendCompleteOder(message);
+          break;
         default:
-          console.warn(`Unhandled topic: ${topic} with message: ${message.value.toString()}`);
+          console.warn(
+            `Unhandled topic: ${topic} with message: ${message.value.toString()}`
+          );
       }
     },
   });
 };
-
-
 
 module.exports = { connectConsumer };

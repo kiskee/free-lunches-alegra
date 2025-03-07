@@ -42,7 +42,6 @@ class InventoryService {
       }
       await this.ensureIngredientsAvailable(convertedMsg.ingredients);
       await connectProducer();
-      console.log("aca envie el mensaje devuelta ya")
       sendMessage("avalibleIngredients", convertedMsg);
     } catch (error) {
       console.error("Error al analizar JSON:", error);
