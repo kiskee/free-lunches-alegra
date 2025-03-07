@@ -13,7 +13,7 @@ const connectConsumer = async () => {
   await consumer.connect();
   await consumer.subscribe({
     topics: ["kitchen", "avalibleIngredients"], // Lista de topics a los que suscribirse
-    fromBeginning: true, // Opcional: comienza a consumir desde el principio de los topics
+    fromBeginning: false, // Opcional: comienza a consumir desde el principio de los topics
   }); //fromBeginning: true
   const service = new KitchenService();
   await consumer.run({
@@ -24,9 +24,11 @@ const connectConsumer = async () => {
         case "kitchen":
           await service.incomeOrderFromRest(message);
           break;
-        //case "avalibleIngredients":
+        case "avalibleIngredients":
+          console.log("este mensaje me lelgo devuelta a la cocian ********************", message.value.toString())
+          break
         default:
-          console.warn(`Unhandled topic: ${topic} with message: ${message}`);
+          console.warn(`Unhandled topic: ${topic} with message: ${message.value.toString()}`);
       }
     },
   });

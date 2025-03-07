@@ -28,7 +28,7 @@ const consumer = kafka.consumer({ groupId: "restaurant-group" });
 const connectConsumer = async () => {
   const service = new RestaurantService();
   await consumer.connect();
-  await consumer.subscribe({ topic: "final-order", fromBeginning: true });
+  await consumer.subscribe({ topic: "final-order", fromBeginning: false });
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
