@@ -1,5 +1,6 @@
 const { RECIPES } = require("/app/shared/constants/ingredients"); // Import the list of recipes
-const { enviarOrdenFinalizada } = require("./ws.service");
+const { enviarOrdenFinalizada, orderToKitchenEvent } = require("./ws.service");
+
 
 /**
  * Service responsible for restaurant-related operations.
@@ -10,7 +11,6 @@ class RestaurantService {
    * @returns {Object} A randomly selected recipe.
    */
   selectRandomRecipe() {
-    enviarOrdenFinalizada("aca mi priomer envento ahcia alla")
     return RECIPES[Math.floor(Math.random() * RECIPES.length)];
   }
 
@@ -20,6 +20,10 @@ class RestaurantService {
       `📥 Mensaje recibido en ${topic}:`,
       message.value.toString()
     );
+  }
+
+  async sendeventToKitchen(order) {
+    orderToKitchenEvent(order)
   }
 }
 

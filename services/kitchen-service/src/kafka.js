@@ -20,18 +20,4 @@ const sendMessage = async (topic, message) => {
   console.log(`📩 Mensaje enviado a ${topic}:`, message);
 };
 
-// consumer
-const consumer = kafka.consumer({ groupId: "kitchen-group" });
-
-const connectConsumer = async () => {
-  await consumer.connect();
-  await consumer.subscribe({ topic: "kitchen", fromBeginning: true });
-
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      console.log(`📥 Mensaje recibido en ${topic}:`, message.value.toString());
-    },
-  });
-};
-
-module.exports = { connectConsumer, connectProducer, sendMessage };
+module.exports = { connectProducer, sendMessage };

@@ -42,6 +42,7 @@ services:
     ports:
       - "3004:3004"
       - "8082:8082"  # WebSocket
+      - "8083:8083"
     depends_on:
       - kafka
     networks:

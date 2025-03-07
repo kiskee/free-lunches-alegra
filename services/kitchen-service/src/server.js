@@ -1,5 +1,5 @@
 const app = require("./app");
-const { connectConsumer } = require('./kafka');
+const { connectConsumer } = require('./consumers/kitchen.consumer');
 
 const PORT = process.env.PORT || 3002;
 
