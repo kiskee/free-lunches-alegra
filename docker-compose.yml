@@ -70,6 +70,7 @@ services:
     ports:
       - "3003:3003"
       - "8084:8084"
+      - "8085:8085"
     depends_on:
       - kafka
     networks:

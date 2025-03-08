@@ -1,6 +1,7 @@
 const { INGREDIENTS } = require("/app/shared/constants/ingredients");
 const { MarketService } = require("./market.service");
-const {connectProducer, sendMessage} = require("../kafka")
+const { connectProducer, sendMessage } = require("../kafka");
+const { sendInventory } = require("./wsWarehouse.service");
 
 class InventoryService {
   constructor() {
@@ -20,6 +21,7 @@ class InventoryService {
   }
 
   async ensureIngredientsAvailable(ingredients) {
+    sendInventory(this.getInventory());
     for (const [ingredient, quantity] of Object.entries(ingredients)) {
       while (this.inventory[ingredient] < quantity) {
         const marketResponse = await this.marketService.buyFromMarket(
@@ -31,6 +33,7 @@ class InventoryService {
       }
       this.inventory[ingredient] -= quantity;
     }
+    sendInventory(this.getInventory());
   }
 
   async newIngredients(message) {

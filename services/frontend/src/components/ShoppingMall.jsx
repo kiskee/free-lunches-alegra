@@ -45,7 +45,7 @@ export default function ShoppingMall() {
             </tr>
           </thead>
         </table>
-        <div className="text-white h-120 overflow-y-auto p-3" ref={historyRef}>
+        <div className="text-white h-100 overflow-y-auto p-3" ref={historyRef}>
           {goToMall.length > 0 ? (
             <table className="w-full text-left border-collapse">
               <tbody>
