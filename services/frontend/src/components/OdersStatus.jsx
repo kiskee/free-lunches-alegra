@@ -6,7 +6,7 @@ export default function OrdersStatus() {
   const historyRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8082");
+    const socket = new WebSocket("ws://3.82.142.148:8082");
 
     socket.onmessage = (event) => {
       try {

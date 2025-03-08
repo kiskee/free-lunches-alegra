@@ -23,7 +23,7 @@ export default function Ingredients() {
   };
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8085");
+    const socket = new WebSocket("ws://3.82.142.148:8085");
 
     socket.onmessage = (event) => {
       try {
