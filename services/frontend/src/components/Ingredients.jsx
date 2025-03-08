@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-
-export default function Ingredients() {
-  // Valores iniciales del inventario
-  const initialInventory = {
+const initialInventory = {
     tomato: 5,
     lemon: 5,
     potato: 5,
@@ -15,45 +12,44 @@ export default function Ingredients() {
     chicken: 5,
   };
 
+export default function Ingredients() {
   const [ingredients, setIngredients] = useState(initialInventory);
-
-  // Función para capitalizar la primera letra
-  const capitalize = (word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  };
-
   useEffect(() => {
-    const socket = new WebSocket("ws://54.87.1.10:8085");
+      const socket = new WebSocket("ws://localhost:8085");
+  
+      socket.onmessage = (event) => {
+        try {
+          const mensaje = JSON.parse(event.data);
+  
+          // Actualiza los ingredientes con los datos recibidos
+          setIngredients(mensaje.data);
+        } catch (error) {
+          console.error("Error al procesar el mensaje:", error);
+        }
+      };
+  
+      return () => {
+        socket.close();
+      };
+    }, []);
 
-    socket.onmessage = (event) => {
-      try {
-        const mensaje = JSON.parse(event.data);
-
-        // Actualiza los ingredientes con los datos recibidos
-        setIngredients(mensaje.data);
-      } catch (error) {
-        console.error("Error al procesar el mensaje:", error);
-      }
+    const capitalize = (word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
     };
-
-    return () => {
-      socket.close();
-    };
-  }, []);
 
   return (
-    <div className="w-full h-full p-6 bg-black border border-black rounded-lg shadow-2xl ring-1 ring-orange-500/20 text-center text-white shadow-orange-400/30">
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-orange-700">
-        Inventory
-      </h5>
-      <div className="grid grid-cols-2 gap-2">
+      <>
+      <div className="h-fit">
+      <div className="bg-white border border-gray-200 p-4">
+          <h2 className="text-lg font-bold mb-2 text-center">Inventory</h2>
+        </div>
         {Object.entries(ingredients).map(([item, quantity]) => (
-          <div key={item} className="p-2 border rounded flex justify-between">
-            <span>{capitalize(item)}</span>
-            <span className="font-bold">{quantity}</span>
-          </div>
-        ))}
+        <div key={item} className="p-2 border rounded flex justify-between">
+          <span>{capitalize(item)}</span>
+          <span className="font-bold">{quantity}</span>
+        </div>
+      ))}
       </div>
-    </div>
-  );
+      </>
+  )
 }

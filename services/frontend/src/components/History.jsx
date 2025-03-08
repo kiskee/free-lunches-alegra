@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function History() {
   const [orders, setOrders] = useState([]);
@@ -6,14 +7,14 @@ export default function History() {
   const historyRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://54.87.1.10:8082");
+    const socket = new WebSocket("ws://localhost:8082");
 
     socket.onmessage = (event) => {
       try {
         const mensaje = JSON.parse(event.data);
-        //console.log(mensaje)
+
         if (mensaje.evento === "orderCreated") {
-          setOrders((prev) => [...prev, mensaje]); // Agrega nuevos mensajes sin sobrescribir
+          setOrders((prev) => [mensaje, ...prev]); // Agrega nuevos mensajes sin sobrescribir
           setCount((prevCount) => prevCount + 1);
         }
       } catch (error) {
@@ -34,20 +35,23 @@ export default function History() {
 
   return (
     <>
-      <div className="w-full h-full p-6 bg-black border border-black rounded-lg shadow-2xl ring-1 ring-orange-500/20 text-center text-white shadow-orange-400/30 ">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-orange-700">
-          Orders History
-        </h5>
-        <h4 className="mb-2 text-2xl font-bold tracking-tight text-orange-700">
-          Orders Count: {count}
-        </h4>
-        <div className="text-white h-70 overflow-y-auto p-3" ref={historyRef}>
+      <div className="h-full">
+        <div className="bg-white border border-gray-200 p-4">
+          <h2 className="text-lg font-bold mb-2 text-center">History</h2>
+        </div>
+        <ScrollArea
+          className="h-[400px] w-full rounded-md border p-4 "
+          ref={historyRef}
+        >
           {orders.length > 0 ? (
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-sm border-collapse">
               <tbody>
                 {orders.map((order, index) => (
-                  <tr key={index} className="border-b border-orange-500/30">
-                    <td className="p-2">{order.data.id}</td>
+                  <tr
+                    key={index}
+                    className="border-b border-orange-500/20 hover:bg-orange-50/50"
+                  >
+                    <td className="p-1.5 truncate">{order.data.id}</td>
                   </tr>
                 ))}
               </tbody>
@@ -55,7 +59,7 @@ export default function History() {
           ) : (
             <p className="text-center">No Orders to show..</p>
           )}
-        </div>
+        </ScrollArea>
       </div>
     </>
   );
