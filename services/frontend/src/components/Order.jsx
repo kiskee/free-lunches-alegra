@@ -13,7 +13,7 @@ export default function Order() {
       setOrderStatus(null);
 
       // Llamada al endpoint para ordenar
-      const response = await axios.post("/api/order");
+      const response = await axios.post("http://restaurant-manager:3004/order");
 
       setOrderStatus(response.data);
       setLoading(false);
