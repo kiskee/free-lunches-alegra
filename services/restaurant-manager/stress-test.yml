@@ -1,9 +1,9 @@
 config:
-  target: "http://localhost:3004"
+  target: "http://3.82.142.148:5173/api"
   phases:
-    - duration: 30
-      arrivalRate: 50
-      rampTo: 100
+    - duration: 20
+      arrivalRate: 10
+      rampTo: 20
 scenarios:
   - flow:
       - post:

@@ -6,7 +6,7 @@ export default function ShoppingMall() {
   const historyRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://3.82.142.148:8084");
+    const socket = new WebSocket("ws://54.87.1.10:8084");
 
     socket.onmessage = (event) => {
       try {
