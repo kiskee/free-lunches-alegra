@@ -19,7 +19,7 @@ const sendMessage = async (topic, message) => {
     topic,
     messages: [{ value: JSON.stringify(message) }],
   });
-  console.log(`📩 Mensaje enviado a ${topic}:`, message);
+  //console.log(`📩 Mensaje enviado a ${topic}:`, message);
 };
 
 //consumer

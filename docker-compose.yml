@@ -69,6 +69,7 @@ services:
     build: ./services/warehouse-service
     ports:
       - "3003:3003"
+      - "8084:8084"
     depends_on:
       - kafka
     networks:

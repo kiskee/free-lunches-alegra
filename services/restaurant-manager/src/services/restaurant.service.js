@@ -21,10 +21,10 @@ class RestaurantService {
         convertedMsg = JSON.parse(convertedMsg);
       }
       enviarOrdenFinalizada(convertedMsg);
-      return console.log(
-        `📥 Mensaje recibido en ${topic}:`,
-        message.value.toString()
-      );
+      // return console.log(
+      //   `📥 Mensaje recibido en ${topic}:`,
+      //   message.value.toString()
+      // );
     } catch (error) {
       console.log(error);
     }

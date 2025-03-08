@@ -1,23 +1,30 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Layaut from "./components/Layaut";
+import Recipes from "./components/Recipes";
+import Ingredients from "./components/Ingredients";
+import ShoppingMall from "./components/ShoppingMall";
+import History from "./components/History";
+import OdersStatus from "./components/OdersStatus";
+import Order from "./components/Order";
+
 
 function App() {
   const [orderStatus, setOrderStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8082');
+  // useEffect(() => {
+  //   const socket = new WebSocket('ws://localhost:8082');
 
-    socket.onmessage = (event) => {
-      //const mensaje = JSON.parse(event.data);
-     // setEventos((prev) => [...prev, mensaje]); // Agregar al estado
-     console.log("por aca me llego el eventicocococococococococ", event)
-    };
+  //   socket.onmessage = (event) => {
+  //     //const mensaje = JSON.parse(event.data);
+  //    // setEventos((prev) => [...prev, mensaje]); // Agregar al estado
+  //    console.log("por aca me llego el eventicocococococococococ", event)
+  //   };
 
-    return () => socket.close();
-  }, []);
+  //   return () => socket.close();
+  // }, []);
 
   // Enviar la orden al servicio restaurant-manager
   const handleSubmitOrder = async () => {
@@ -37,7 +44,34 @@ function App() {
     }
   };
   return (
-    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4 p-6">
+    <>
+      <Layaut>
+        <div className="grid grid-cols-4 grid-rows-6 gap-4">
+          <div className="row-span-3 col-start-4 row-start-4">
+            <Ingredients />
+          </div>
+          <div className="row-span-3 col-start-4 row-start-1">
+            <ShoppingMall />
+          </div>
+          <div className="col-span-2 row-span-3 col-start-2 row-start-4">
+            <History />
+          </div>
+          <div className="col-span-2 row-span-2 col-start-2 row-start-2">
+            <OdersStatus/>
+          </div>
+          <div className="col-span-2 col-start-2 row-start-1"><Order/></div>
+          <div className="row-span-6 col-start-1 row-start-1">
+            <Recipes />
+          </div>
+        </div>
+      </Layaut>
+    </>
+  );
+}
+
+export default App;
+/**
+  <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4 p-6">
       <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
         Free Lunches by Alegra
       </h2>
@@ -124,7 +158,4 @@ function App() {
         </div>
       )}
     </div>
-  );
-}
-
-export default App;
+ */
