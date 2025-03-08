@@ -6,7 +6,7 @@ export default function History() {
   const historyRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8082");
+    const socket = new WebSocket("ws://restaurant-manager:8082");
 
     socket.onmessage = (event) => {
       try {
