@@ -28,7 +28,6 @@ export default function Ingredients() {
     socket.onmessage = (event) => {
       try {
         const mensaje = JSON.parse(event.data);
-        console.log("Mensaje del inventario:", mensaje);
 
         // Actualiza los ingredientes con los datos recibidos
         setIngredients(mensaje.data);

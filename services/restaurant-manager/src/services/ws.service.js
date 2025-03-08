@@ -9,20 +9,12 @@ wss.on("connection", (ws) => {
 });
 
 // Función para enviar eventos a todos los clientes conectados
-function enviarOrdenFinalizada(orden) {
+function enviarOrdenFinalizada(event, orden) {
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ evento: "ordenFinalizada", data: orden }));
+      client.send(JSON.stringify({ evento: event, data: orden }));
     }
   });
 }
 
-function orderToKitchenEvent(order){
-  wssOne.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ evento: "orderToKitchen", data: order }));
-    }
-  });
-}
-
-module.exports = { enviarOrdenFinalizada, orderToKitchenEvent };
+module.exports = { enviarOrdenFinalizada };

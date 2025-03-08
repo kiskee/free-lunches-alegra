@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function OrdersStatus() {
   const [orderStatus, setOrderStatus] = useState([]); // Estado inicial como array vacío
+  const [count, setCount] = useState(0);
   const historyRef = useRef(null);
 
   useEffect(() => {
@@ -10,8 +11,10 @@ export default function OrdersStatus() {
     socket.onmessage = (event) => {
       try {
         const mensaje = JSON.parse(event.data);
-
-        setOrderStatus((prev) => [...prev, mensaje]); // Agrega nuevos mensajes sin sobrescribir
+        if (mensaje.evento === "ordenFinalizada") {
+          setOrderStatus((prev) => [...prev, mensaje]); // Agrega nuevos mensajes sin sobrescribir
+          setCount((prevCount) => prevCount + 1);
+        }
       } catch (error) {
         console.error("Error al procesar el mensaje:", error);
       }
@@ -31,7 +34,7 @@ export default function OrdersStatus() {
   return (
     <div className="w-full h-full p-6 bg-black border border-black rounded-lg shadow-2xl ring-1 ring-orange-500/20 text-center text-white shadow-orange-400/30">
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-orange-700">
-        Orders Status
+        Orders Status    Oders Count: {count}
       </h5>
       <table className="w-full text-left border-collapse">
         <thead>

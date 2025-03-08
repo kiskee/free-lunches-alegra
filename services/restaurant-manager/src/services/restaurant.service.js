@@ -1,5 +1,5 @@
 const { RECIPES } = require("/app/shared/constants/ingredients"); // Import the list of recipes
-const { enviarOrdenFinalizada, orderToKitchenEvent } = require("./ws.service");
+const { enviarOrdenFinalizada } = require("./ws.service");
 
 /**
  * Service responsible for restaurant-related operations.
@@ -20,18 +20,10 @@ class RestaurantService {
       if (typeof convertedMsg === "string") {
         convertedMsg = JSON.parse(convertedMsg);
       }
-      enviarOrdenFinalizada(convertedMsg);
-      // return console.log(
-      //   `📥 Mensaje recibido en ${topic}:`,
-      //   message.value.toString()
-      // );
+      enviarOrdenFinalizada("ordenFinalizada", convertedMsg);
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async sendeventToKitchen(order) {
-    orderToKitchenEvent(order);
   }
 }
 
