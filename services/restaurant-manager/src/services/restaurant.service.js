@@ -20,7 +20,7 @@ class RestaurantService {
       if (typeof convertedMsg === "string") {
         convertedMsg = JSON.parse(convertedMsg);
       }
-      enviarOrdenFinalizada("ordenFinalizada", convertedMsg);
+      await enviarOrdenFinalizada("ordenFinalizada", convertedMsg);
     } catch (error) {
       console.log(error);
     }

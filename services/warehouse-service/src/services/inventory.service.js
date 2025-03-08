@@ -7,6 +7,7 @@ class InventoryService {
   constructor() {
     this.inventory = this.initializeInventory();
     this.marketService = new MarketService();
+    this.producerReady = this.initializeProducer(); // Guardamos la promesa
   }
 
   initializeInventory() {
@@ -14,6 +15,17 @@ class InventoryService {
       acc[ingredient] = 5;
       return acc;
     }, {});
+  }
+
+  async initializeProducer() {
+    if (!this.producer) { // Evita múltiples conexiones
+      try {
+        this.producer = await connectProducer();
+        console.log("Kafka Producer conectado correctamente");
+      } catch (error) {
+        console.error("Error al conectar el Kafka Producer:", error);
+      }
+    }
   }
 
   getInventory() {
@@ -24,9 +36,7 @@ class InventoryService {
     sendInventory(this.getInventory());
     for (const [ingredient, quantity] of Object.entries(ingredients)) {
       while (this.inventory[ingredient] < quantity) {
-        const marketResponse = await this.marketService.buyFromMarket(
-          ingredient
-        );
+        const marketResponse = await this.marketService.buyFromMarket(ingredient);
         if (marketResponse > 0) {
           this.inventory[ingredient] += marketResponse;
         }
@@ -43,9 +53,10 @@ class InventoryService {
       if (typeof convertedMsg === "string") {
         convertedMsg = JSON.parse(convertedMsg);
       }
+
       await this.ensureIngredientsAvailable(convertedMsg.ingredients);
-      await connectProducer();
-      sendMessage("avalibleIngredients", convertedMsg);
+      await this.producerReady; // Esperamos a que la conexión esté lista solo la primera vez
+      await sendMessage("avalibleIngredients", convertedMsg);
     } catch (error) {
       console.error("Error al analizar JSON:", error);
     }

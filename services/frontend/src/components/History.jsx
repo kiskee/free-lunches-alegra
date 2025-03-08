@@ -11,7 +11,7 @@ export default function History() {
     socket.onmessage = (event) => {
       try {
         const mensaje = JSON.parse(event.data);
-        console.log(mensaje)
+        //console.log(mensaje)
         if (mensaje.evento === "orderCreated") {
           setOrders((prev) => [...prev, mensaje]); // Agrega nuevos mensajes sin sobrescribir
           setCount((prevCount) => prevCount + 1);

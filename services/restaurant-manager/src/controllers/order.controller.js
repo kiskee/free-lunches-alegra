@@ -1,7 +1,27 @@
-const RestaurantService = require("../services/restaurant.service"); // Import the restaurant service
+const RestaurantService = require("../services/restaurant.service");
 const { connectProducer, sendMessage } = require("../kafka");
 const crypto = require("crypto");
 const { enviarOrdenFinalizada } = require("../services/ws.service");
+
+let producerReady = null; // Variable global para la conexión persistente
+
+/**
+ * Asegura que el producer esté conectado antes de enviar mensajes
+ */
+const ensureProducerConnected = async () => {
+  if (!producerReady) {
+    producerReady = connectProducer()
+      .then((producer) => {
+        console.log("Kafka Producer conectado correctamente");
+        return producer;
+      })
+      .catch((error) => {
+        console.error("Error al conectar el Kafka Producer:", error);
+        producerReady = null; // Resetear para intentar reconectar en la siguiente petición
+      });
+  }
+  return producerReady;
+};
 
 /**
  * Handles incoming order requests.
@@ -9,22 +29,24 @@ const { enviarOrdenFinalizada } = require("../services/ws.service");
  */
 const placeOrder = async (req, res) => {
   try {
-    await connectProducer();
-    const service = new RestaurantService(); // Instantiate the restaurant service
-    const selectedRecipe = service.selectRandomRecipe(); // Select a random recipe
+    await ensureProducerConnected(); // Esperar la conexión del producer
+    const service = new RestaurantService();
+    const selectedRecipe = service.selectRandomRecipe();
     const uuid = crypto.randomUUID();
     selectedRecipe["id"] = uuid;
-    sendMessage("kitchen", selectedRecipe);
-    enviarOrdenFinalizada("orderCreated", selectedRecipe);
+
+    await sendMessage("kitchen", selectedRecipe);
+    await enviarOrdenFinalizada("orderCreated", selectedRecipe);
+
     res.json({
       success: true,
       message: "Orden enviada a la cocina",
       orderId: uuid,
     });
   } catch (error) {
-    // Handle errors and send a 500 status response
+    console.error("Error en placeOrder:", error);
     res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = { placeOrder }; // Export the placeOrder function for use in routes
+module.exports = { placeOrder };

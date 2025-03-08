@@ -9,7 +9,7 @@ wss.on("connection", (ws) => {
 });
 
 // Función para enviar eventos a todos los clientes conectados
-function enviarOrdenFinalizada(event, orden) {
+async function enviarOrdenFinalizada(event, orden) {
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify({ evento: event, data: orden }));
