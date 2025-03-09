@@ -1,5 +1,6 @@
 const { RECIPES } = require("/app/shared/constants/ingredients"); // Import the list of recipes
 const { enviarOrdenFinalizada } = require("./ws.service");
+const StatusDBService = require('../db/statusDB.service')
 
 /**
  * Service responsible for restaurant-related operations.
@@ -21,6 +22,12 @@ class RestaurantService {
         convertedMsg = JSON.parse(convertedMsg);
       }
       await enviarOrdenFinalizada("ordenFinalizada", convertedMsg);
+      const dataToSave = {
+        id : convertedMsg.id,
+        name: convertedMsg.name,
+        status: convertedMsg.status
+      }
+      await StatusDBService.createStatusRecord(dataToSave)
     } catch (error) {
       console.log(error);
     }

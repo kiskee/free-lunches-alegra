@@ -2,7 +2,8 @@ const RestaurantService = require("../services/restaurant.service");
 const { connectProducer, sendMessage } = require("../kafka");
 const crypto = require("crypto");
 const { enviarOrdenFinalizada } = require("../services/ws.service");
-const HistoryService = require('../db/db.service')
+const HistoryService = require("../db/db.service");
+const StatusDBService = require("../db/statusDB.service");
 
 let producerReady = null; // Variable global para la conexión persistente
 
@@ -41,8 +42,8 @@ const placeOrder = async (req, res) => {
     const dataToSave = {
       id: uuid,
       recipeName: selectedRecipe.name,
-    }
-    await HistoryService.createHistoryRecord(dataToSave)
+    };
+    await HistoryService.createHistoryRecord(dataToSave);
     res.json({
       success: true,
       message: "Orden enviada a la cocina",
@@ -54,32 +55,66 @@ const placeOrder = async (req, res) => {
   }
 };
 
-const getCountHistory = async (req, res) =>{
+const getCountHistory = async (req, res) => {
   try {
-    const items = await HistoryService.countRecords()
+    const items = await HistoryService.countRecords();
     res.status(200).json(items);
-} catch (error) {
-    res.status(500).json({ error: error.message });
-}
-}
-
-const getAllItems = async (req, res) => {
-  try {
-      const items = await HistoryService.getAllItems();
-      res.status(200).json(items);
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
-
-const deleteAllHistory= async (req, res) => {
+const getAllItems = async (req, res) => {
   try {
-    await HistoryService.deleteAllRecords()
-    res.status(200).json({message: "all records was deleted"});
+    const items = await HistoryService.getAllItems();
+    res.status(200).json(items);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
-module.exports = { placeOrder, getCountHistory , getAllItems, deleteAllHistory};
+const deleteAllHistory = async (req, res) => {
+  try {
+    await HistoryService.deleteAllRecords();
+    res.status(200).json({ message: "all records was deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getCountStatus = async (req, res) => {
+  try {
+    const items = await StatusDBService.countStatusRecords();
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllStatus = async (req, res) => {
+  try {
+    const items = await StatusDBService.getAllItems();
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const deleteAllStatus = async (req, res) => {
+  try {
+    await StatusDBService.deleteAllRecords();
+    res.status(200).json({ message: "all records was deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  placeOrder,
+  getCountHistory,
+  getAllItems,
+  deleteAllHistory,
+  getCountStatus,
+  getAllStatus,
+  deleteAllStatus,
+};

@@ -4,6 +4,9 @@ const {
   getCountHistory,
   getAllItems,
   deleteAllHistory,
+  getCountStatus,
+  getAllStatus,
+  deleteAllStatus,
 } = require("../controllers/order.controller");
 
 const router = express.Router();
@@ -18,5 +21,12 @@ router.get("/history", getCountHistory);
 router.get("/history-records", getAllItems);
 
 router.delete("/delete-history", deleteAllHistory)
+
+router.get("/status", getCountStatus);
+
+// 🔹 Ruta para todos los resgistro
+router.get("/status-records", getAllStatus);
+
+router.delete("/delete-status", deleteAllStatus)
 
 module.exports = router;
