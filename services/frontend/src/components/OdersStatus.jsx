@@ -20,7 +20,7 @@ export default function OrderStatus() {
         const items = await fetchStatusItems();
         setOrderStatus(items);
       } catch (error) {
-        console.log();
+        console.log(error);
       }
     };
     setInitialValues();

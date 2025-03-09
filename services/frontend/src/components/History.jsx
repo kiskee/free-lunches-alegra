@@ -17,7 +17,6 @@ export default function History() {
       setCount(total);
 
       const items = await fetchHistoryItems();
-      console.log(items);
       setOrders(items);
     };
     getCount();

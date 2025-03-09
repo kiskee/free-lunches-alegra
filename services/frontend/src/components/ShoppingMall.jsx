@@ -19,7 +19,9 @@ export default function ShoppingMall() {
 
         const items = await fetchTripsItems();
         setGoToMall(items);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+      }
     };
     initialValues();
   }, []);
@@ -30,7 +32,6 @@ export default function ShoppingMall() {
     socket.onmessage = (event) => {
       try {
         const mensaje = JSON.parse(event.data);
-        console.log("el mensaje de mall", mensaje);
         setGoToMall((prev) => [mensaje.data, ...prev]); // Agrega nuevos mensajes sin sobrescribir
         setCount((prevCount) => prevCount + 1);
       } catch (error) {
