@@ -1,14 +1,22 @@
 const WebSocket = require("ws");
 
-const wss = new WebSocket.Server({ port: 8082 }); // Inicia WebSocket en el puerto 8080
-const wssOne =  new WebSocket.Server({ port: 8083 });
+// Initialize a WebSocket server on port 8082 for kitchen communication.
+const wss = new WebSocket.Server({ port: 8082 });
 
-// Manejar nuevas conexiones de clientes
+// Initialize another WebSocket server on port 8083 (reserved for future use).
+const wssOne = new WebSocket.Server({ port: 8083 });
+
+// Handle new client connections to the WebSocket server.
 wss.on("connection", (ws) => {
-  console.log("Cliente conectado al WebSocket de la cocina");
+  // Connection established, no log needed.
 });
 
-// Función para enviar eventos a todos los clientes conectados
+/**
+ * Sends an event to all connected WebSocket clients.
+ *
+ * @param {string} event - The event name.
+ * @param {Object} order - The order data to send.
+ */
 async function enviarOrdenFinalizada(event, orden) {
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
@@ -17,4 +25,5 @@ async function enviarOrdenFinalizada(event, orden) {
   });
 }
 
+// Export the function for use in other parts of the application.
 module.exports = { enviarOrdenFinalizada };

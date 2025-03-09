@@ -11,22 +11,25 @@ const {
 
 const router = express.Router();
 
-// 🔹 Ruta para colocar una orden
+// 🔹 Route to place an order
 router.post("/", placeOrder);
 
-// 🔹 Ruta para obtener el conteo del historial
+// 🔹 Route to get the history count
 router.get("/history", getCountHistory);
 
-// 🔹 Ruta para todos los resgistro
+// 🔹 Route to get all history records
 router.get("/history-records", getAllItems);
 
-router.delete("/delete-history", deleteAllHistory)
+// 🔹 Route to delete all history records
+router.delete("/delete-history", deleteAllHistory);
 
+// 🔹 Route to get the status count
 router.get("/status", getCountStatus);
 
-// 🔹 Ruta para todos los resgistro
+// 🔹 Route to get all status records
 router.get("/status-records", getAllStatus);
 
-router.delete("/delete-status", deleteAllStatus)
+// 🔹 Route to delete all status records
+router.delete("/delete-status", deleteAllStatus);
 
 module.exports = router;

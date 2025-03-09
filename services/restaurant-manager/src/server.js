@@ -1,19 +1,21 @@
 const app = require("./app"); // Import the configured Express application
-const { connectConsumer } = require('./kafka');
-const { connectDB } = require("./db/mongo.service"); 
+const { connectConsumer } = require("./kafka");
+const { connectDB } = require("./db/mongo.service");
 
-// Define the port number, using environment variable or default to 3001
-const PORT = 3004; //process.env.PORT ||
+// Define the server port
+const PORT = 3004;
 
-const server = app.listen(PORT, "0.0.0.0", 511, () => {
-  console.log(`Restaurant running on port ${PORT}`);
-});
+// Start the server
+const server = app.listen(PORT, "0.0.0.0", 511);
 
+// Initialize Kafka consumer
 (async () => {
   await connectConsumer();
 })();
 
-connectDB(); // ✅ Ejecutamos la conexión a MongoDB al iniciar el servidor
+// Connect to MongoDB
+connectDB();
 
-server.keepAliveTimeout = 5000; // 5s
-server.headersTimeout = 6000; // 6s
+// Configure server timeouts
+server.keepAliveTimeout = 5000; // 5 seconds
+server.headersTimeout = 6000; // 6 seconds
