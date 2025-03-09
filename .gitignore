@@ -18,6 +18,8 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+services/frontend/kitchen-service/coverage/
+services/restaurant-manager/coverage/
 
 # IDEs and editors
 /.idea

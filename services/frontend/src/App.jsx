@@ -18,9 +18,9 @@ function App() {
    
      <Recipes/>
       {/* Contenedor principal de las 4 secciones grandes - ocupa el resto de la pantalla */}
-      <div className="relative flex-grow">
+      <div className="relative flex-grow flex flex-col">
         {/* Grid de 2x2 para las cuatro secciones */}
-        <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-4 md:grid-rows-2 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 h-full">
           {/* Área superior izquierda - Status */}
          <OrderStatus/>
           
