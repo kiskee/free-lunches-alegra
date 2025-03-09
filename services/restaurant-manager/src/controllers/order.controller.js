@@ -2,6 +2,7 @@ const RestaurantService = require("../services/restaurant.service");
 const { connectProducer, sendMessage } = require("../kafka");
 const crypto = require("crypto");
 const { enviarOrdenFinalizada } = require("../services/ws.service");
+const HistoryService = require('../db/db.service')
 
 let producerReady = null; // Variable global para la conexión persistente
 
@@ -37,7 +38,11 @@ const placeOrder = async (req, res) => {
 
     await sendMessage("kitchen", selectedRecipe);
     await enviarOrdenFinalizada("orderCreated", selectedRecipe);
-
+    const dataToSave = {
+      id: uuid,
+      recipeName: selectedRecipe.name,
+    }
+    await HistoryService.createHistoryRecord(dataToSave)
     res.json({
       success: true,
       message: "Orden enviada a la cocina",
@@ -49,4 +54,32 @@ const placeOrder = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder };
+const getCountHistory = async (req, res) =>{
+  try {
+    const items = await HistoryService.countRecords()
+    res.status(200).json(items);
+} catch (error) {
+    res.status(500).json({ error: error.message });
+}
+}
+
+const getAllItems = async (req, res) => {
+  try {
+      const items = await HistoryService.getAllItems();
+      res.status(200).json(items);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
+
+
+const deleteAllHistory= async (req, res) => {
+  try {
+    await HistoryService.deleteAllRecords()
+    res.status(200).json({message: "all records was deleted"});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+module.exports = { placeOrder, getCountHistory , getAllItems, deleteAllHistory};

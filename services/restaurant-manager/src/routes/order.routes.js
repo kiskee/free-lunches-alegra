@@ -1,9 +1,22 @@
-const express = require("express"); // Import Express framework
-const { placeOrder } = require("../controllers/order.controller"); // Import the placeOrder controller
+const express = require("express");
+const {
+  placeOrder,
+  getCountHistory,
+  getAllItems,
+  deleteAllHistory,
+} = require("../controllers/order.controller");
 
-const router = express.Router(); // Create a new router instance
+const router = express.Router();
 
-// Define a POST route for placing an order
+// 🔹 Ruta para colocar una orden
 router.post("/", placeOrder);
 
-module.exports = router; // Export the router for use in the main application
+// 🔹 Ruta para obtener el conteo del historial
+router.get("/history", getCountHistory);
+
+// 🔹 Ruta para todos los resgistro
+router.get("/history-records", getAllItems);
+
+router.delete("/delete-history", deleteAllHistory)
+
+module.exports = router;

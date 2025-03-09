@@ -1,10 +1,27 @@
 import { useState, useEffect, useRef } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  fetchHistoryItemCount,
+  fetchHistoryItems,
+  deleteAllHistory,
+} from "@/services/historyBD.service";
 
 export default function History() {
   const [orders, setOrders] = useState([]);
   const [count, setCount] = useState(0);
   const historyRef = useRef(null);
+
+  useEffect(() => {
+    const getCount = async () => {
+      const total = await fetchHistoryItemCount();
+      setCount(total);
+
+      const items = await fetchHistoryItems();
+      console.log(items);
+      setOrders(items);
+    };
+    getCount();
+  }, []);
 
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8082");
@@ -14,7 +31,7 @@ export default function History() {
         const mensaje = JSON.parse(event.data);
 
         if (mensaje.evento === "orderCreated") {
-          setOrders((prev) => [mensaje, ...prev]); // Agrega nuevos mensajes sin sobrescribir
+          setOrders((prev) => [mensaje.data, ...prev]); // Agrega nuevos mensajes sin sobrescribir
           setCount((prevCount) => prevCount + 1);
         }
       } catch (error) {
@@ -33,11 +50,29 @@ export default function History() {
     }
   }, [orders]);
 
+  const handleDeleteHistory = async () => {
+    try {
+      await deleteAllHistory();
+      setOrders([])
+      setCount(0)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="h-full">
         <div className="bg-white border border-gray-200 p-4">
-          <h2 className="text-lg font-bold mb-2 text-center">History</h2>
+          <h2 className="text-lg font-bold mb-2 text-center">
+            History count for history: {count}{" "}
+            <button
+              className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition"
+              onClick={handleDeleteHistory}
+            >
+              Delete History
+            </button>
+          </h2>
         </div>
         <ScrollArea
           className="h-[400px] w-full rounded-md border p-4 "
@@ -51,7 +86,7 @@ export default function History() {
                     key={index}
                     className="border-b border-orange-500/20 hover:bg-orange-50/50"
                   >
-                    <td className="p-1.5 truncate">{order.data.id}</td>
+                    <td className="p-1.5 truncate">{order.id}</td>
                   </tr>
                 ))}
               </tbody>
