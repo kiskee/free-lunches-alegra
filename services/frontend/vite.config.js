@@ -18,6 +18,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
+      "/mall":{
+        target: "http://warehouse-service:3003",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/mall/, ""),
+      }, 
     },
   },
 });

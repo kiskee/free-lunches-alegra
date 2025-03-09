@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { goToMall } = require("./wsWarehouse.service");
+const ShoppingMallDBService = require('../db/shoppingMall.service')
 
 class MarketService {
   async buyFromMarket(ingredient) {
@@ -12,6 +13,7 @@ class MarketService {
         response: response.data.quantitySold,
       };
       goToMall(dataToEvent);
+      await ShoppingMallDBService.createShoppingMallRecord(dataToEvent)
       return response.data.quantitySold || 0;
     } catch (error) {
       console.error(`Market purchase error for ${ingredient}`);
