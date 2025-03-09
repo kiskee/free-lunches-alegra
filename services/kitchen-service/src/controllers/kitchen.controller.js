@@ -5,7 +5,7 @@ const kitchenService = new KitchenService();
 /**
  * Controller to handle recipe preparation requests.
  */
-const prepareRecipe = async (req, res) => {
+const prepareRecipeController = async (req, res) => {
   try {
     const recipe = req.body;
     const response = await kitchenService.prepareRecipe(recipe);
@@ -15,4 +15,4 @@ const prepareRecipe = async (req, res) => {
   }
 };
 
-module.exports = { prepareRecipe };
+module.exports = { prepareRecipeController };

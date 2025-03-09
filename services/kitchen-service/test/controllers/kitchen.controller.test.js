@@ -1,44 +1,42 @@
 const KitchenService = require("../../src/services/kitchen.service");
-const kitchenServiceMock = new KitchenService();
-jest.mock("../../src/services/kitchen.service");
+const {
+  prepareRecipeController,
+} = require("../../src/controllers/kitchen.controller");
 
 
-const { prepareRecipe: prepareRecipeController } = require("../../src/controllers/kitchen.controller");
+//jest.mock("../../src/services/kitchen.service");
+jest.spyOn(KitchenService.prototype, "prepareRecipe");
 
+describe("prepareRecipeController", () => {
+  let req, res;
 
+  beforeEach(() => {
+    req = { body: { name: "Pasta", ingredients: ["tomato", "pasta"] } };
+    res = { 
+      json: jest.fn(), 
+      status: jest.fn().mockReturnThis() 
+    };
 
-describe("prepareRecipe controller", () => {
-    let req, res, next;
-  
-    beforeEach(() => {
-      kitchenServiceMock.prepareRecipe = jest.fn(); // Mock explícito de la función
-  
-      req = { body: { name: "Pasta", ingredients: ["Tomato", "Pasta", "Cheese"] } };
-      res = {
-        json: jest.fn(),
-        status: jest.fn().mockReturnThis(),
-      };
-      next = jest.fn();
-    });
-  
-    it("should return a successful response when the recipe is prepared", async () => {
-      const mockResponse = { message: "Recipe prepared successfully" };
-      kitchenServiceMock.prepareRecipe.mockResolvedValue(mockResponse);
-  
-      await prepareRecipeController(req, res, next, kitchenServiceMock); // Pasar el mock al controlador
-  
-      expect(kitchenServiceMock.prepareRecipe).toHaveBeenCalledWith(req.body);
-      expect(res.json).toHaveBeenCalledWith(mockResponse);
-    });
-  
-    it("should return a 500 error when an exception occurs", async () => {
-      const mockError = new Error("Something went wrong");
-      kitchenServiceMock.prepareRecipe.mockRejectedValue(mockError);
-  
-      await prepareRecipeController(req, res, next, kitchenServiceMock); // Pasar el mock al controlador
-  
-      expect(kitchenServiceMock.prepareRecipe).toHaveBeenCalledWith(req.body);
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: mockError.message });
-    });
+    jest.clearAllMocks(); // Limpia mocks antes de cada test
   });
+
+  it("debe devolver la respuesta del servicio con código 200", async () => {
+    const mockResponse = { status: "success", message: "Recipe prepared!" };
+    KitchenService.prototype.prepareRecipe.mockResolvedValue(mockResponse);
+
+    await prepareRecipeController(req, res);
+
+    expect(KitchenService.prototype.prepareRecipe).toHaveBeenCalledWith(req.body);
+    expect(res.json).toHaveBeenCalledWith(mockResponse);
+  });
+
+  it("debe devolver un error 500 si el servicio falla", async () => {
+    KitchenService.prototype.prepareRecipe.mockRejectedValue(new Error("Error interno"));
+
+    await prepareRecipeController(req, res);
+
+    expect(KitchenService.prototype.prepareRecipe).toHaveBeenCalledWith(req.body);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({ error: "Error interno" });
+  });
+});
