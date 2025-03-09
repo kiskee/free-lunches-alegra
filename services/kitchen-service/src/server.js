@@ -1,17 +1,18 @@
 const app = require("./app");
-const { connectConsumer } = require('./consumers/kitchen.consumer');
+const { connectConsumer } = require("./consumers/kitchen.consumer");
 
 const PORT = process.env.PORT || 3002;
 
-const server = app.listen(PORT, "0.0.0.0", 511, () => {
-  console.log(`Kitchen running on port ${PORT}`);
-});
+// Start the server and listen on the specified port
+const server = app.listen(PORT, "0.0.0.0", 511);
 
-
+/**
+ * Initializes the Kafka consumer asynchronously.
+ */
 (async () => {
   await connectConsumer();
 })();
 
-
-server.keepAliveTimeout = 5000; // 5s
-server.headersTimeout = 6000; // 6s
+// Set server timeout configurations
+server.keepAliveTimeout = 5000; // 5 seconds
+server.headersTimeout = 6000; // 6 seconds

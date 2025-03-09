@@ -37,32 +37,40 @@ class KitchenService {
     return warehouseResponse.data;
   }
 
+  /**
+   * Processes incoming orders from the restaurant.
+   * @param {Object} message - Kafka message received.
+   */
   async incomeOrderFromRest(message) {
     const convertedMsg = message.value.toString();
     try {
       await connectProducer();
       sendMessage("warehouse", convertedMsg);
     } catch (error) {
-      console.log(error);
+      throw new Error(`Error processing restaurant order: ${error.message}`);
     }
   }
 
-  async sendCompleteOder(message){
+  /**
+   * Sends the completed order to the final destination.
+   * @param {Object} message - Kafka message received.
+   */
+  async sendCompleteOder(message) {
     try {
       let convertedMsg = JSON.parse(message.value.toString());
 
       if (typeof convertedMsg === "string") {
         convertedMsg = JSON.parse(convertedMsg);
       }
-      convertedMsg.status = "PREPARED"
+
+      convertedMsg.status = "PREPARED";
+
       await connectProducer();
       sendMessage("final-order", convertedMsg);
     } catch (error) {
-      
+      throw new Error(`Error sending completed order: ${error.message}`);
     }
-    
   }
-
 }
 
 module.exports = KitchenService;

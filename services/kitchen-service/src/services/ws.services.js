@@ -1,28 +1,25 @@
 const WebSocket = require("ws");
 
-const wss = new WebSocket.Server({ port: 8082 }); // Inicia WebSocket en el puerto 8080
-const wssOne =  new WebSocket.Server({ port: 8083 });
+// Initialize WebSocket server on port 8082
+const wss = new WebSocket.Server({ port: 8082 });
 
-// Manejar nuevas conexiones de clientes
+/**
+ * Handles new client connections.
+ */
 wss.on("connection", (ws) => {
-  console.log("Cliente conectado al WebSocket de la cocina");
+  // Connection established with a new client
 });
 
-// Función para enviar eventos a todos los clientes conectados
-function enviarOrdenFinalizada(orden) {
+/**
+ * Sends an order completion event to all connected clients.
+ * @param {Object} order - The completed order data.
+ */
+function enviarOrdenFinalizada(order) {
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ evento: "ordenFinalizada", data: orden }));
+      client.send(JSON.stringify({ event: "orderCompleted", data: order }));
     }
   });
 }
 
-function orderToKitchenEvent(order){
-  wssOne.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ evento: "orderToKitchen", data: order }));
-    }
-  });
-}
-
-module.exports = { enviarOrdenFinalizada, orderToKitchenEvent };
+module.exports = { enviarOrdenFinalizada };
