@@ -1,9 +1,9 @@
 config:
-  target: "http://54.87.1.10:5173/api"
+  target: "http://52.72.210.91:5173/api"
   phases:
     - duration: 30
-      arrivalRate: 20
-      rampTo: 40
+      arrivalRate: 50
+      rampTo: 70
 scenarios:
   - flow:
       - post:
