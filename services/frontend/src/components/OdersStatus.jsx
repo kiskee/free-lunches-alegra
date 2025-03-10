@@ -64,41 +64,39 @@ export default function OrderStatus() {
 
   return (
     <>
-      <div className="h-full">
-        <div className="bg-white border border-gray-200 p-4">
-          <h2 className="text-lg font-bold mb-2 text-center">
-            Status - count for Status: {count}{" "}
+      <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full items-center text-center">
+        <div className="flex flex-row justify-between pl-4">
+          <h2 className="text-2xl font-bold pt-6"> Orders Finished</h2>
+          <h2 className="text-2xl font-bold pt-6"> Count Finished: {count}</h2>
+          <div className="pt-6">
             <button
               className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition"
               onClick={handleDeteleStatus}
             >
               Delete History
             </button>
-          </h2>
+          </div>
         </div>
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-orange-500 text-orange-700">
-              <th className="p-2">ID</th>
-              <th className="p-2">Name</th>
-              <th className="p-2">Status</th>
-            </tr>
-          </thead>
-        </table>
-        <div ref={historyRef}>
-          <ScrollArea className="h-[400px] w-full rounded-md border p-4 ">
+        <div className="flex flex-row justify-between pl-6  pr-6 pb-2 pt-12 border-b-2 ">
+          <h3>id:</h3>
+          <h3>Name:</h3>
+          <h3>Status:</h3>
+        </div>
+        <div className="row-span-8 h-fit w-full">
+          <ScrollArea className="h-[300px] w-full rounded-md p-4 ">
             {orderStatus.length > 0 ? (
-              <table className="w-full text-left border-collapse">
-                <tbody>
-                  {orderStatus.map((order, index) => (
-                    <tr key={index} className="border-b border-orange-500/30">
-                      <td className="p-2">{order.id}</td>
-                      <td className="p-2">{order.name}</td>
-                      <td className="p-2">{order.status}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ul>
+                {orderStatus.map((order, index) => (
+                  <li
+                    key={index}
+                    className="flex flex-row justify-between w-full pl-6 pr-6 border-b"
+                  >
+                    <p>{order.id}</p>
+                    <p>{order.name} </p>
+                    <p> {order.status}</p>
+                  </li>
+                ))}
+              </ul>
             ) : (
               <p className="text-center">No Orders to show..</p>
             )}

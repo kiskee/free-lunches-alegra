@@ -1,45 +1,33 @@
-import History from "./components/History"
-import Ingredients from "./components/Ingredients"
-import Recipes from "./components/Recipes"
-import Layaut from "./components/Layaut"
-import Order from "./components/Order"
-import OrderStatus from "./components/OdersStatus"
-import ShoppingMall from "./components/ShoppingMall"
-
-
+import History from "./components/History";
+import Ingredients from "./components/Ingredients";
+import Recipes from "./components/Recipes";
+import Order from "./components/Order";
+import OrderStatus from "./components/OdersStatus";
+import ShoppingMall from "./components/ShoppingMall";
 
 function App() {
-
-
   return (
     <>
-      <Layaut>
-      {/* Sección superior con 6 divisiones para recetas */}
-   
-     <Recipes/>
-      {/* Contenedor principal de las 4 secciones grandes - ocupa el resto de la pantalla */}
-      <div className="relative flex-grow flex flex-col">
-        {/* Grid de 2x2 para las cuatro secciones */}
-        <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-          {/* Área superior izquierda - Status */}
-         <OrderStatus/>
-          
-          {/* Área superior derecha - Shopping mall */}
-         <ShoppingMall/>
-          
-          {/* Área inferior izquierda - History */}
-          <History/>
-          
-          {/* Área inferior derecha - Inventory */}
-          <Ingredients/>
+      <div className="grid grid-cols-6 grid-rows-7 gap-1 h-screen">
+        <div className="col-span-6 bg-black">
+          <Recipes />
         </div>
-        
-        {/* Botón circular perfectamente centrado en la intersección */}
-        <Order/>
+        <div className="col-span-3 row-span-3 row-start-2 bg-black">
+          <OrderStatus />
+        </div>
+        <div className="col-span-3 row-span-3 col-start-4 row-start-2 bg-black">
+          <History />
+        </div>
+        <div className="col-span-3 row-span-3 row-start-5 bg-black">
+          <ShoppingMall />
+        </div>
+        <div className="col-span-3 row-span-3 col-start-4 row-start-5 bg-black">
+          <Ingredients />
+        </div>
+        <Order />
       </div>
-      </Layaut>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

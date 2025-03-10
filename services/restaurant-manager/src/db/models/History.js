@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
  */
 const historySchema = new mongoose.Schema({
     id: { type: String, required: true }, // Unique identifier for the order
-    recipeName: { type: String, required: true }, // Name of the ordered recipe
+    name: { type: String, required: true }, // Name associated with the status
+    status: { type: String, required: true }, // Name of the ordered recipe
     date: { type: Date, required: false, default: Date.now } // Timestamp of the order
 });
 

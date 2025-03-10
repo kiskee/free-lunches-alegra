@@ -1,4 +1,8 @@
-import RecipeCard from "./RecipeCard";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const RECIPES = [
   {
@@ -60,11 +64,35 @@ const RECIPES = [
 export default function Recipes() {
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 p-2 h-1/4 bg-gray-100">
+      <div className="grid grid-cols-6 grid-rows-1 gap-1 h-full p-2">
         {RECIPES.map((recipe, index) => (
-          <div key={index} className="h-full">
-            <RecipeCard recipe={recipe} />
-          </div>
+          <HoverCard key={index}>
+            <HoverCardTrigger asChild>
+              <div className="h-full flex items-center justify-center text-center text-white border rounded-md text-2xl font-bold border-slate-600 shadow-md shadow-cyan-500/50 cursor-pointer">
+                {recipe.name}
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <ul className="w-full space-y-1 flex-grow">
+                {Object.entries(recipe.ingredients).map(
+                  ([ingredient, quantity]) => (
+                    <li
+                      key={ingredient}
+                      className="flex items-center bg-gray-50 rounded-md p-1.5 text-sm"
+                    >
+                      <span className="w-2 h-2 bg-gray-500 rounded-full mr-2"></span>
+                      <span className="font-medium capitalize">
+                        {ingredient}:
+                      </span>
+                      <span className="ml-auto bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full text-xs font-semibold">
+                        {quantity}
+                      </span>
+                    </li>
+                  )
+                )}
+              </ul>
+            </HoverCardContent>
+          </HoverCard>
         ))}
       </div>
     </>

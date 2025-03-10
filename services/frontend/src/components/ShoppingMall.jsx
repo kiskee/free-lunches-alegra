@@ -20,7 +20,7 @@ export default function ShoppingMall() {
         const items = await fetchTripsItems();
         setGoToMall(items);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     initialValues();
@@ -62,45 +62,42 @@ export default function ShoppingMall() {
 
   return (
     <>
-      <div className="h-full">
-        <div className="bg-white border border-gray-200 p-4">
-          <h2 className="text-lg font-bold mb-2 text-center">
-            Shopping mall - Trips count: {count}{" "}
+      <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full items-center text-center">
+        <div className="flex flex-row justify-between pl-4">
+          <h2 className="text-2xl font-bold pt-6"> Shopping mall</h2>
+          <h2 className="text-2xl font-bold pt-6"> Trips count: {count}</h2>
+          <div className="pt-6 pr-14">
             <button
               className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition"
               onClick={handleDeleteTrips}
             >
               Delete Trips
             </button>
-          </h2>
+          </div>
         </div>
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-orange-500 text-orange-700">
-              <th className="p-2">Ingredient</th>
-              <th className="p-2">Response from store</th>
-            </tr>
-          </thead>
-        </table>
-        <ScrollArea
-          className="h-[400px] w-full rounded-md border p-4 "
-          ref={historyRef}
-        >
-          {goToMall.length > 0 ? (
-            <table className="w-full text-left border-collapse">
-              <tbody>
+        <div className="flex flex-row justify-between pl-56  pr-56 pb-2 pt-12 border-b-2 ">
+          <h3>Ingredient:</h3>
+          <h3>Response from store:</h3>
+        </div>
+        <div className="row-span-8 h-fit w-full">
+          <ScrollArea className="h-[300px] w-full rounded-md p-4 ">
+            {goToMall.length > 0 ? (
+              <ul>
                 {goToMall.map((mall, index) => (
-                  <tr key={index} className="border-b border-orange-500/30">
-                    <td className="p-2">{mall.ingredient}</td>
-                    <td className="p-2">{mall.response}</td>
-                  </tr>
+                  <li
+                    key={index}
+                    className="flex flex-row justify-between w-full pl-56  pr-56 border-b"
+                  >
+                    <p>{mall.ingredient}</p>
+                    <p>{mall.response}</p>
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          ) : (
-            <p className="text-center">There are no trips to the mall yet</p>
-          )}
-        </ScrollArea>
+              </ul>
+            ) : (
+              <p className="text-center">There are no trips to the mall yet</p>
+            )}
+          </ScrollArea>
+        </div>
       </div>
     </>
   );

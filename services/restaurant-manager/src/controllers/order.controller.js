@@ -33,17 +33,15 @@ const placeOrder = async (req, res) => {
     const selectedRecipe = service.selectRandomRecipe();
     const uuid = crypto.randomUUID();
     selectedRecipe["id"] = uuid;
+    selectedRecipe["status"] = "Sent"
 
     // Send the order to Kafka and notify via WebSocket
     await sendMessage("kitchen", selectedRecipe);
     await enviarOrdenFinalizada("orderCreated", selectedRecipe);
 
     // Save order history
-    const dataToSave = {
-      id: uuid,
-      recipeName: selectedRecipe.name,
-    };
-    await HistoryService.createHistoryRecord(dataToSave);
+   
+    await HistoryService.createHistoryRecord(selectedRecipe);
 
     res.json({
       success: true,

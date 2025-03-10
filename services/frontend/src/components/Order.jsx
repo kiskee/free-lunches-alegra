@@ -24,9 +24,9 @@ export default function Order() {
   };
   return (
     <>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/14 z-10">
         <button
-          className="bg-red-600 hover:bg-red-700 text-white font-bold w-40 h-40 rounded-full shadow-lg flex items-center justify-center text-xl"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold w-30 h-30 rounded-full shadow-lg flex items-center justify-center text-xl"
           onClick={handleSubmitOrder}
           disabled={loading}
         >
