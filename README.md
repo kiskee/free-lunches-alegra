@@ -6,7 +6,7 @@ This project implements a comprehensive food ordering system using a microservic
 
 Each microservice communicates asynchronously via Kafka messaging, stores data in MongoDB, and publishes real-time updates through WebSockets to the React frontend. This event-driven architecture ensures loose coupling between services while maintaining data consistency and providing real-time updates to users.
 
-![Architecture Diagram](https://raw.githubusercontent.com/kiskee/free-lunches-alegra/refs/heads/main/Diagram.png?token=GHSAT0AAAAAAC766QXHTQY46QWSJ6LZWWEAZ6OOKNQ)
+![Architecture Diagram](https://github.com/kiskee/free-lunches-alegra/blob/main/Diagram.png)
 
 ## System Components
 
