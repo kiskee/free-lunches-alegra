@@ -26,7 +26,7 @@ export default function Order() {
     <>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/14 z-10">
         <button
-          className="bg-red-600 hover:bg-red-700 text-white font-bold w-30 h-30 rounded-full shadow-lg flex items-center justify-center text-xl"
+          className="bg-orange-600 text-white font-bold w-30 h-30 rounded-full  flex items-center justify-center text-xl shadow-lg shadow-amber-500/50"
           onClick={handleSubmitOrder}
           disabled={loading}
         >

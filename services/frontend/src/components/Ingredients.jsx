@@ -39,21 +39,23 @@ export default function Ingredients() {
 
   return (
     <>
-      <div className="flex flex-col h-full max-h-74 m-4 pl-4">
-        <div className="bg-white border-b border-gray-200 p-2 sticky top-0 z-10">
+      <div className="grid grid-cols-2 grid-rows-6 gap-4 h-full items-center bg-white">
+        <div className="col-span-2 flex flex-row justify-center items-center gap-8 border-b">
+          {" "}
           <h2 className="text-lg font-bold text-center">Inventory</h2>
+          
         </div>
-
-        <div className="overflow-auto flex-grow p-2 grid grid-cols-2 gap-2">
+        <div className="col-span-2 row-span-5 row-start-2">
+        <div className="overflow-auto flex-grow p-2 grid grid-cols-2 gap-2 px-4">
           {Object.entries(ingredients).map(([item, quantity]) => {
             return (
               <div
                 key={item}
-                className="bg-black rounded-lg p-2 flex justify-between items-center shadow-sm"
+                className="bg-white rounded-lg p-2 flex justify-between items-center shadow-sm"
               >
                 <div className="flex items-center">
-                  <div className="w-2 h-2 rounded-full mr-2 bg-red-500"></div>
-                  <span className="font-medium text-white">
+                  <div className="w-2 h-2 rounded-full mr-2 bg-amber-500"></div>
+                  <span className="font-medium text-black">
                     {capitalize(item)}
                   </span>
                 </div>
@@ -63,6 +65,7 @@ export default function Ingredients() {
               </div>
             );
           })}
+        </div>
         </div>
       </div>
     </>

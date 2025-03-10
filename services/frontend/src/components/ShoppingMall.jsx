@@ -62,23 +62,28 @@ export default function ShoppingMall() {
 
   return (
     <>
-      <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full items-center text-center">
-        <div className="flex flex-row justify-between pl-4">
-          <h2 className="text-2xl font-bold pt-6"> Shopping mall</h2>
-          <h2 className="text-2xl font-bold pt-6"> Trips count: {count}</h2>
-          <div className="pt-6 pr-14">
-            <button
-              className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition"
-              onClick={handleDeleteTrips}
-            >
-              Delete Trips
-            </button>
-          </div>
+      <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full text-center">
+        {/* Header */}
+        <div className="flex flex-row justify-between items-center px-4 py-6 border-b pr-14">
+          <h2 className="text-2xl font-bold"> Shopping mall</h2>
+
+          <button
+            className="bg-orange-600 text-white rounded px-4 py-2 cursor-pointer z-10 "
+            onClick={handleDeleteTrips}
+          >
+            Delete History
+          </button>
+          <h2 className="text-2xl font-bold">
+            Trips count: <span className="text-orange-600">{count}</span>
+          </h2>
         </div>
-        <div className="flex flex-row justify-between pl-56  pr-56 pb-2 pt-12 border-b-2 ">
+
+        {/* Table Header */}
+        <div className="flex flex-row justify-between px-56 py-2 pb-8 border-b">
           <h3>Ingredient:</h3>
           <h3>Response from store:</h3>
         </div>
+
         <div className="row-span-8 h-fit w-full">
           <ScrollArea className="h-[300px] w-full rounded-md p-4 ">
             {goToMall.length > 0 ? (

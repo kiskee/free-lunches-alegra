@@ -64,24 +64,27 @@ export default function OrderStatus() {
 
   return (
     <>
-      <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full items-center text-center">
-        <div className="flex flex-row justify-between pl-4">
-          <h2 className="text-2xl font-bold pt-6"> Orders Finished</h2>
-          <h2 className="text-2xl font-bold pt-6"> Count Finished: {count}</h2>
-          <div className="pt-6">
-            <button
-              className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition"
-              onClick={handleDeteleStatus}
-            >
-              Delete History
-            </button>
-          </div>
+     <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full text-center">
+        {/* Header */}
+        <div className="flex flex-row justify-between items-center px-4 py-6 border-b">
+          <h2 className="text-2xl font-bold">Orders Finished</h2>
+          <h2 className="text-2xl font-bold">Count Finished: <span className="text-orange-600">{count}</span></h2>
+          <button
+            className="bg-orange-600 text-white rounded px-4 py-2 cursor-pointer z-10"
+            onClick={handleDeteleStatus}
+          >
+            Delete History
+          </button>
         </div>
-        <div className="flex flex-row justify-between pl-6  pr-6 pb-2 pt-12 border-b-2 ">
-          <h3>id:</h3>
+
+        {/* Table Header */}
+        <div className="flex flex-row justify-between px-6 py-2 pb-8 border-b">
+          <h3>ID:</h3>
           <h3>Name:</h3>
           <h3>Status:</h3>
         </div>
+
+
         <div className="row-span-8 h-fit w-full">
           <ScrollArea className="h-[300px] w-full rounded-md p-4 ">
             {orderStatus.length > 0 ? (

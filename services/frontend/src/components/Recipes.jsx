@@ -68,7 +68,7 @@ export default function Recipes() {
         {RECIPES.map((recipe, index) => (
           <HoverCard key={index}>
             <HoverCardTrigger asChild>
-              <div className="h-full flex items-center justify-center text-center text-white border rounded-md text-2xl font-bold border-slate-600 shadow-md shadow-cyan-500/50 cursor-pointer">
+              <div className="h-full flex items-center justify-center text-center text-white border rounded-md text-2xl font-bold border-amber-500 shadow-md shadow-amber-500/50 cursor-pointer">
                 {recipe.name}
               </div>
             </HoverCardTrigger>
