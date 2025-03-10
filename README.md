@@ -312,6 +312,12 @@ The infrastructure is provisioned using AWS services:
 5. Implement circuit breakers for resilience
 6. Add rate limiting and service throttling
 
+## First approach
+
+This was my initial idea
+![Architecture Diagram](https://github.com/kiskee/free-lunches-alegra/blob/main/firstLook.jpeg)
+
+
 ## Contributing
 
 1. Fork the repository
