@@ -46,7 +46,6 @@ Each microservice communicates asynchronously via Kafka messaging, stores data i
 - **Frontend**: React
 - **Testing**: Jest
 - **Infrastructure**: Docker, AWS
-- **CI/CD**: GitHub Actions (or similar)
 
 ## Event Flow
 
@@ -98,24 +97,15 @@ Each microservice communicates asynchronously via Kafka messaging, stores data i
    cd food-ordering-system
    ```
 
-2. Install dependencies for all services:
-   ```bash
-   npm run install-all
-   ```
-
-3. Configure environment variables:
+2. Configure environment variables:
    - Copy `.env.example` to `.env` in each service directory
    - Update configuration values as needed
 
-4. Start infrastructure services:
+3. Start infrastructure services:
    ```bash
    docker-compose up -d
    ```
 
-5. Start all microservices:
-   ```bash
-   npm run start-all
-   ```
 
 ## Service Details
 
@@ -128,11 +118,27 @@ Each microservice communicates asynchronously via Kafka messaging, stores data i
 - Send real-time updates via WebSockets
 - Process finalized orders from Kitchen
 
-**API Endpoints:**
-- `POST /api/orders` - Create a new order
-- `GET /api/orders` - Get all orders
-- `GET /api/orders/:id` - Get order by ID
-- `PUT /api/orders/:id/status` - Update order status
+### API Endpoints
+
+### Order History
+- **GET** `/api/order/history-records` - Retrieve all order history records.
+- **GET** `/api/order/history` - Retrieve the total count of order history records.
+- **DELETE** `/api/order/delete-history` - Delete all order history records.
+
+### Order Status
+- **GET** `/api/order/status-records` - Retrieve all order status records.
+- **GET** `/api/order/status` - Retrieve the total count of order status records.
+- **DELETE** `/api/order/delete-status` - Delete all order status records.
+
+### Supply Trips
+- **GET** `/mall/supply/trips-records` - Retrieve all supply trip records.
+- **GET** `/mall/supply/trips` - Retrieve the total count of supply trip records.
+- **DELETE** `/mall/supply/delete-trips` - Delete all supply trip records.
+
+**Kafka Topics:**
+- Group-id: `restaurant-group`
+- Consumes: `final-order`
+- Produces: `kitchen`
 
 ### Kitchen Service
 
@@ -143,8 +149,9 @@ Each microservice communicates asynchronously via Kafka messaging, stores data i
 - Notify Restaurant of completed orders
 
 **Kafka Topics:**
-- Consumes: `restaurant-orders`
-- Produces: `kitchen-ingredient-requests`, `kitchen-order-completed`
+- Group-id: `kitchen-group`
+- Consumes: `kitchen`, `avalibleIngredients`
+- Produces: `warehouse`, `final-order`
 
 ### Warehouse Service
 
@@ -156,8 +163,9 @@ Each microservice communicates asynchronously via Kafka messaging, stores data i
 - Publish inventory status via WebSockets
 
 **Kafka Topics:**
-- Consumes: `kitchen-ingredient-requests`, `market-fulfillment`
-- Produces: `warehouse-inventory-status`, `market-purchase-requests`
+- Group-id: `warehouse-group`
+- Consumes: `warehouse`
+- Produces: `avalibleIngredients`
 
 ### Market Service
 
@@ -166,9 +174,6 @@ Each microservice communicates asynchronously via Kafka messaging, stores data i
 - Process external purchases
 - Deliver ingredients back to Warehouse
 
-**Kafka Topics:**
-- Consumes: `market-purchase-requests`
-- Produces: `market-fulfillment`
 
 ## WebSocket Events
 
@@ -176,7 +181,7 @@ The system publishes the following real-time events:
 
 | Event Type | Description | Data |
 |------------|-------------|------|
-| `order_created` | New order created in Restaurant | Order details |
+| `orderCreated` | New order created in Restaurant | Order details |
 | `order_in_progress` | Kitchen processing order | Order ID, status |
 | `inventory_status` | Current warehouse inventory | Ingredient levels |
 | `market_purchase` | Market purchase initiated | Items being purchased |
