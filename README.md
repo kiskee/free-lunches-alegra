@@ -183,6 +183,70 @@ The system publishes the following real-time events:
 | `order_ready` | Order preparation completed | Order ID, status |
 | `order_finalized` | Order cycle completed | Order details |
 
+# Important testing results:
+## Performance Testing
+
+The system has undergone stress testing to evaluate its performance under load. Below are the results from recent tests using Artillery.io.
+
+### Test Configuration
+- Test duration: 32 seconds
+- Total virtual users: 1,800
+- Average request rate: 61 requests/second
+
+### Summary Results
+
+#### HTTP Performance
+- **Total requests**: 1,800
+- **Success rate**: 100% (1,800 successful responses, 0 failures)
+- **Total downloaded bytes**: 178,200
+
+#### Response Time
+- **Minimum**: 79ms
+- **Maximum**: 303ms
+- **Mean**: 106.9ms
+- **Median**: 102.5ms
+- **95th percentile**: 138.4ms
+- **99th percentile**: 237.5ms
+
+#### Virtual User Session Length
+- **Minimum**: 155.6ms
+- **Maximum**: 429.2ms
+- **Mean**: 202.9ms
+- **Median**: 194.4ms
+- **95th percentile**: 278.7ms
+- **99th percentile**: 376.2ms
+
+### Period Breakdown
+
+| Period | Request Rate | Avg Response Time | 95th Percentile | 99th Percentile |
+|--------|--------------|-------------------|-----------------|-----------------|
+| Period 1 | 57/sec | 97.1ms | 106.7ms | 111.1ms |
+| Period 2 | 54/sec | 103.1ms | 127.8ms | 179.5ms |
+| Period 3 | 62/sec | 105.4ms | 135.7ms | 179.5ms |
+| Period 4 | 68/sec | 113.0ms | 156.0ms | 257.3ms |
+
+### Analysis
+
+The test results demonstrate that the system handles load effectively with:
+
+- Consistent response times (average ~107ms) even as the request rate increases
+- No failed requests throughout the test
+- Minimal variation between mean and median response times, indicating stable performance
+- 99% of all requests were served in under 240ms
+
+These metrics suggest the microservices architecture is performing well under normal load conditions. The system shows linear scalability characteristics with only a slight increase in response time (from 97ms to 113ms) as the request rate increased from 57/sec to 68/sec.
+
+### Testing Tools
+
+- **Artillery.io**: Used for load generation and metrics collection
+- **Test script**: `load-test.yml` (available in the `/tests/performance` directory)
+
+To replicate these performance tests, run:
+
+```bash
+npm run test:performance
+```
+
 ## Development
 
 ### Running Services Individually
