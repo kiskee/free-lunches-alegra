@@ -15,7 +15,7 @@ const initialInventory = {
 export default function Ingredients() {
   const [ingredients, setIngredients] = useState(initialInventory);
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8085");
+    const socket = new WebSocket("ws://52.72.210.91:8085");
 
     socket.onmessage = (event) => {
       try {
