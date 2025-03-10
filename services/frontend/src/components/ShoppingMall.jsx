@@ -27,7 +27,7 @@ export default function ShoppingMall() {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://52.72.210.91:8084");
+    const socket = new WebSocket("ws://52.91.92.196:8084");
 
     socket.onmessage = (event) => {
       try {

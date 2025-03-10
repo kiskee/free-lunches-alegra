@@ -27,7 +27,7 @@ export default function OrderStatus() {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://52.72.210.91:8082");
+    const socket = new WebSocket("ws://52.91.92.196:8082");
 
     socket.onmessage = (event) => {
       try {
