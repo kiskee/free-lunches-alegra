@@ -15,4 +15,8 @@ const prepareRecipeController = async (req, res) => {
   }
 };
 
-module.exports = { prepareRecipeController };
+const healthCheck = async (req, res) => {
+  res.status(200).send("OK");
+};
+
+module.exports = { prepareRecipeController , healthCheck};

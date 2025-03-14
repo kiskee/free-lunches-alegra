@@ -27,7 +27,7 @@ const connectConsumer = async () => {
 
     // Start consuming messages
     await consumer.run({
-      eachMessage: async ({ topic, partition, message }) => {
+      eachMessage: async ({ message }) => {
         try {
           // Process the incoming message with the inventory service
           inventoryService.newIngredients(message);
