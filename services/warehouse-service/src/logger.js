@@ -16,12 +16,12 @@ const logger = pino({
       },
       {
         target: "pino/file", // 📁 Save logs to a file
-        options: { destination: `${logDir}/kitchenApp.log`, mkdir: true },
+        options: { destination: `${logDir}/warehouseApp.log`, mkdir: true },
         level: "info", // Only 'info' and more critical logs go to the file
       },
       {
         target: "pino/file", // 📁 Save only error logs in a separate file
-        options: { destination: `${logDir}/kitchenErrors.log`, mkdir: true },
+        options: { destination: `${logDir}/warehouseErrors.log`, mkdir: true },
         level: "error",
       },
     ],

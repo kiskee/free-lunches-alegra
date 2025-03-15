@@ -23,7 +23,7 @@ export default function History() {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://52.91.92.196:8082");
+    const socket = new WebSocket("ws://localhost:8082");
 
     socket.onmessage = (event) => {
       try {

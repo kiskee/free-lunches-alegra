@@ -1,5 +1,6 @@
 const { InventoryService } = require("../services/inventory.service");
 const ShoppingMallDBService = require("../db/shoppingMall.service");
+const logger = require("../logger");
 
 // Initialize the inventory service instance
 const inventoryService = new InventoryService();
@@ -16,10 +17,12 @@ const inventoryService = new InventoryService();
  */
 async function supplyIngredients(req, res) {
   const { ingredients } = req.body; // Extract the ingredients from the request body
+  logger.info("Received ingredient supply request", { ingredients });
 
   try {
     // Ensure the requested ingredients are available in the inventory
     await inventoryService.ensureIngredientsAvailable(ingredients);
+    logger.info("Ingredients supplied successfully");
 
     // Respond with the updated inventory status
     res.json({
@@ -28,6 +31,7 @@ async function supplyIngredients(req, res) {
     });
   } catch (error) {
     // Handle errors if ingredients are not available or another issue occurs
+    logger.error("Error in supplying ingredients", { error: error.message });
     res.status(500).json({ error: error.message });
   }
 }
@@ -41,12 +45,15 @@ async function supplyIngredients(req, res) {
  * @param {Object} res - Express response object used to send back the count of trips.
  */
 const getCountTripsMall = async (req, res) => {
+  logger.info("Fetching trip count from mall database");
   try {
     // Fetch the count of trip records from the database
     const items = await ShoppingMallDBService.countTripsRecords();
+    logger.info("Trip count fetched successfully", { count: items });
     res.status(200).json(items);
   } catch (error) {
     // Handle database retrieval errors
+    logger.error("Error fetching trip count", { error: error.message });
     res.status(500).json({ error: error.message });
   }
 };
@@ -60,12 +67,15 @@ const getCountTripsMall = async (req, res) => {
  * @param {Object} res - Express response object used to send back the list of trips.
  */
 const getAllTrips = async (req, res) => {
+  logger.info("Fetching all trip records from mall database");
   try {
     // Fetch all trip records from the database
     const items = await ShoppingMallDBService.getAllItems();
+    logger.info("Fetched all trip records successfully", { count: items.length });
     res.status(200).json(items);
   } catch (error) {
     // Handle errors that occur while fetching trip records
+    logger.error("Error fetching trip records", { error: error.message });
     res.status(500).json({ error: error.message });
   }
 };
@@ -79,12 +89,15 @@ const getAllTrips = async (req, res) => {
  * @param {Object} res - Express response object used to confirm the deletion.
  */
 const deleteAllTrips = async (req, res) => {
+  logger.warn("Deleting all trip records from mall database");
   try {
     // Delete all trip records from the database
     await ShoppingMallDBService.deleteAllRecords();
+    logger.info("All trip records deleted successfully");
     res.status(200).json({ message: "All records have been deleted." });
   } catch (error) {
     // Handle database deletion errors
+    logger.error("Error deleting trip records", { error: error.message });
     res.status(500).json({ error: error.message });
   }
 };
