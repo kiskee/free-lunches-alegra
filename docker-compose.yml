@@ -100,6 +100,7 @@ services:
       - MONGODB_URI=mongodb://mongodb:27017/restaurantDB
     volumes:
       - ./shared:/app/shared
+      - ./logs:/app/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3002/prepare/health"]
       interval: 20s
@@ -124,6 +125,7 @@ services:
       - MONGODB_URI=mongodb://mongodb:27017/restaurantDB
     volumes:
       - ./shared:/app/shared
+      - ./logs:/app/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3003/supply/health"]
       interval: 20s
