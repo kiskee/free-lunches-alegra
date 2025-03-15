@@ -64,14 +64,18 @@ const RECIPES = [
 export default function Recipes() {
   return (
     <>
+      {/* Recipe Grid Container */}
       <div className="grid grid-cols-6 grid-rows-1 gap-1 h-full p-2">
         {RECIPES.map((recipe, index) => (
           <HoverCard key={index}>
+            {/* Recipe Name (Trigger for HoverCard) */}
             <HoverCardTrigger asChild>
               <div className="h-full flex items-center justify-center text-center text-white border rounded-md text-2xl font-bold border-amber-500 shadow-md shadow-amber-500/50 cursor-pointer">
                 {recipe.name}
               </div>
             </HoverCardTrigger>
+
+            {/* HoverCard Content - Recipe Ingredients */}
             <HoverCardContent>
               <ul className="w-full space-y-1 flex-grow">
                 {Object.entries(recipe.ingredients).map(
@@ -80,10 +84,15 @@ export default function Recipes() {
                       key={ingredient}
                       className="flex items-center bg-gray-50 rounded-md p-1.5 text-sm"
                     >
+                      {/* Bullet Point */}
                       <span className="w-2 h-2 bg-gray-500 rounded-full mr-2"></span>
+
+                      {/* Ingredient Name */}
                       <span className="font-medium capitalize">
                         {ingredient}:
                       </span>
+
+                      {/* Ingredient Quantity */}
                       <span className="ml-auto bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full text-xs font-semibold">
                         {quantity}
                       </span>
@@ -98,3 +107,4 @@ export default function Recipes() {
     </>
   );
 }
+

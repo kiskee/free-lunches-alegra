@@ -1,49 +1,37 @@
-import { useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea component for scrolling
 import {
   fetchHistoryItemCount,
   fetchHistoryItems,
   deleteAllHistory,
-} from "@/services/historyBD.service";
-import { useInitialFetch } from "@/hooks/useInitialFetch";
-import { AlertDelete } from "./AlertDelete";
+} from "@/services/historyBD.service"; // Import functions for fetching and deleting history data
+import { useInitialFetch } from "@/hooks/useInitialFetch"; // Custom hook to fetch initial data
+import { AlertDelete } from "./AlertDelete"; // Import AlertDelete component for confirmation dialog
+import useWebSocket from "@/hooks/useWebSocket"; // Custom hook to handle WebSocket connection
 
+/**
+ * History Component
+ * Displays a list of orders sent to the kitchen with a live count and delete functionality.
+ */
 export default function History() {
+  // Fetch initial history data and item count
   const { count, items, setCount, setItems } = useInitialFetch(
     fetchHistoryItemCount,
     fetchHistoryItems
   );
 
-  useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8082");
-
-    socket.onmessage = (event) => {
-      try {
-        const mensaje = JSON.parse(event.data);
-
-        if (mensaje.evento === "orderCreated") {
-          setItems((prev) => [mensaje.data, ...prev]); // Agrega nuevos mensajes sin sobrescribir
-          setCount((prevCount) => prevCount + 1);
-        }
-      } catch (error) {
-        console.error("Error al procesar el mensaje:", error);
-      }
-    };
-
-    return () => {
-      socket.close();
-    };
-  }, []);
+  // Establish WebSocket connection to receive real-time updates for new orders
+  useWebSocket("ws://localhost:8082", setItems, setCount, "orderCreated");
 
   return (
     <>
       <div className="grid grid-cols-1 grid-rows-10 gap-4 bg-white h-full text-center">
-        {/* Header */}
+        {/* Header section */}
         <div className="flex flex-row justify-between items-center px-4 py-6 border-b">
           <h2 className="text-2xl font-bold">Orders Sent To Kitchen</h2>
           <h2 className="text-2xl font-bold">
             Count: <span className="text-orange-600">{count}</span>
           </h2>
+          {/* Delete history button with confirmation dialog */}
           <AlertDelete
             deleteAllHistory={deleteAllHistory}
             setItems={setItems}
@@ -75,6 +63,7 @@ export default function History() {
                 ))}
               </ul>
             ) : (
+              // Message when no orders are available
               <p className="text-center">No Orders to show..</p>
             )}
           </ScrollArea>

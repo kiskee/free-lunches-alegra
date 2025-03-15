@@ -1,54 +1,35 @@
-// import { useState } from 'react';
+import { useState } from "react";
 
-// const useDeleteHistory = (deleteAllHistory, setItems, setCount) => {
-//   const [isDialogOpen, setIsDialogOpen] = useState(false);
-//   const [isDeleting, setIsDeleting] = useState(false);
-
-//   const handleDeleteHistory = async () => {
-//     try {
-//       setIsDeleting(true);
-//       await deleteAllHistory();
-//       setItems([]);
-//       setCount(0);
-//     } catch (error) {
-//       console.error('Error trying to delete historial:', error);
-//     } finally {
-//       setIsDeleting(false);
-//       setIsDialogOpen(false); // Cerrar el diálogo después de la operación
-//     }
-//   };
-
-//   return {
-//     isDialogOpen,
-//     setIsDialogOpen,
-//     handleDeleteHistory,
-//     isDeleting,
-//   };
-// };
-
-// export default useDeleteHistory;
-import { useState } from 'react';
-
+/**
+ * Custom hook to handle deleting history.
+ * It manages the deletion process, updates the state, and provides loading feedback.
+ *
+ * @param {Function} deleteAllHistory - Function to delete all history items.
+ * @param {Function} setItems - Function to update the items state after deletion.
+ * @param {Function} setCount - Function to reset the count after deletion.
+ * @returns {Object} - An object containing the delete handler and loading state.
+ */
 const useDeleteHistory = (deleteAllHistory, setItems, setCount) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
+  /**
+   * Handles deleting the history by calling the provided delete function,
+   * then updating the state accordingly.
+   */
   const handleDeleteHistory = async () => {
+    setIsDeleting(true);
     try {
-      setIsDeleting(true);
-      await deleteAllHistory(); // Llama a la función para eliminar el historial
-      setItems([]); // Limpia los items
-      setCount(0); // Reinicia el contador
+      await deleteAllHistory(); // Calls the function to delete history
+      setItems([]); // Clears the items list
+      setCount(0); // Resets the count
     } catch (error) {
-      console.error('Error al eliminar el historial:', error);
+      console.error("Error deleting history:", error);
     } finally {
       setIsDeleting(false);
     }
   };
 
-  return {
-    handleDeleteHistory,
-    isDeleting,
-  };
+  return { handleDeleteHistory, isDeleting };
 };
 
 export default useDeleteHistory;
