@@ -16,7 +16,7 @@ export default function ShoppingMall() {
   );
 
   // WebSocket connection for real-time updates
-  useWebSocket("ws://localhost:8084", setItems, setCount);
+  useWebSocket("ws://54.175.210.212:8084", setItems, setCount);
 
   return (
     <>

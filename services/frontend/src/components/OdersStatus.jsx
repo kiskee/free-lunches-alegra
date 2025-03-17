@@ -21,7 +21,7 @@ export default function OrderStatus() {
   );
 
   // Establish WebSocket connection to receive real-time updates for completed orders
-  useWebSocket("ws://localhost:8082", setItems, setCount, "ordenFinalizada");
+  useWebSocket("ws://54.175.210.212:8082", setItems, setCount, "ordenFinalizada");
 
   return (
     <>

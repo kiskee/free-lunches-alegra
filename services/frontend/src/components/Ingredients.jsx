@@ -25,7 +25,7 @@ export default function Ingredients() {
   const [ingredients, setIngredients] = useState(initialInventory);
 
   // Establish WebSocket connection to receive real-time updates for ingredients
-  useWebSocket("ws://localhost:8085", setIngredients, null, "ingredients");
+  useWebSocket("ws://54.175.210.212:8085", setIngredients, null, "ingredients");
 
   /**
    * Capitalizes the first letter of a word

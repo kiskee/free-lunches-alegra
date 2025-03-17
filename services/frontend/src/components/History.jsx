@@ -20,7 +20,7 @@ export default function History() {
   );
 
   // Establish WebSocket connection to receive real-time updates for new orders
-  useWebSocket("ws://localhost:8082", setItems, setCount, "orderCreated");
+  useWebSocket("ws://54.175.210.212:8082", setItems, setCount, "orderCreated");
 
   return (
     <>
